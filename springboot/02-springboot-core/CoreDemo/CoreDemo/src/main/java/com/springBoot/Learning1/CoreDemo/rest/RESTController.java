@@ -16,6 +16,7 @@ public class RESTController {
     // define constructor for DI
     @Autowired
     RESTController(@Qualifier("basketballCoach") Coach theCoach){
+        System.out.println("In Constructor : "+ getClass().getSimpleName());
         myCoach = theCoach;
     }
 
