@@ -1,4 +1,4 @@
-package com.springBoot.Learning1.CoreDemo;
+package com.springBoot.Learning1.CoreDemo.common;
 
 public interface Coach {
     String getDaliyWorkout();
