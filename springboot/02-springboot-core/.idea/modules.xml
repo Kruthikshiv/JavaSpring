@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/02-springboot-core.iml" filepath="$PROJECT_DIR$/.idea/02-springboot-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/03_Setter_Injection.iml" filepath="$PROJECT_DIR$/.idea/03_Setter_Injection.iml" />
     </modules>
   </component>
 </project>
