@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 //component marks class as Spring Bean indicating can be used for DI
 @Component
-public class CrciketCoach implements Coach {
+public class CricketCoach implements Coach {
 
     @Override
     public String CIgetDaliyWorkout(){

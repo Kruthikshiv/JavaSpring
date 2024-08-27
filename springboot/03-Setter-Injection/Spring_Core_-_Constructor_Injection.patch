@@ -1,0 +1,240 @@
+Subject: [PATCH] Spring Core - Constructor Injection
+---
+Index: springboot/03-Setter-Injection/CoreDemo/CoreDemo/target/classes/application.properties
+===================================================================
+diff --git a/springboot/03-Setter-Injection/CoreDemo/CoreDemo/target/classes/application.properties b/springboot/03-Setter-Injection/CoreDemo/CoreDemo/target/classes/application.properties
+deleted file mode 100644
+--- a/springboot/03-Setter-Injection/CoreDemo/CoreDemo/target/classes/application.properties	(revision d6654f790e26ee47bf965fa2f145cf915e79af53)
++++ /dev/null	(revision d6654f790e26ee47bf965fa2f145cf915e79af53)
+@@ -1,1 +0,0 @@
+-spring.application.name=CoreDemo
+Index: springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/common/BasketballCoach.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/common/BasketballCoach.java b/springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/common/BasketballCoach.java
+new file mode 100644
+--- /dev/null	(date 1724781787567)
++++ b/springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/common/BasketballCoach.java	(date 1724781787567)
+@@ -0,0 +1,16 @@
++package com.springBoot.Learning1.CoreDemo.common;
++
++import org.springframework.stereotype.Component;
++
++@Component
++public class BasketballCoach implements Coach {
++    @Override
++    public String CIgetDaliyWorkout(){
++        return "Practice 3 pointers for 30 mins daily!, Using constructor Injection ";
++    }
++
++    @Override
++    public String SIgetDaliyWorkout(){
++        return "Practice  3 pointers for 30 mins daily!, Using setter Injection";
++    }
++}
+Index: springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/rest/RESTController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/rest/RESTController.java b/springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/rest/RESTController.java
+--- a/springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/rest/RESTController.java	(revision d6654f790e26ee47bf965fa2f145cf915e79af53)
++++ b/springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/rest/RESTController.java	(date 1724782007597)
+@@ -2,6 +2,7 @@
+ 
+ import com.springBoot.Learning1.CoreDemo.common.Coach;
+ import org.springframework.beans.factory.annotation.Autowired;
++import org.springframework.beans.factory.annotation.Qualifier;
+ import org.springframework.web.bind.annotation.GetMapping;
+ import org.springframework.web.bind.annotation.RestController;
+ 
+@@ -10,17 +11,18 @@
+ 
+     //Local varialbe to store coach obj;
+     private Coach myCoach;
++    private Coach myCoach1;
+ 
+     // define constructor for DI
+     @Autowired
+-    RESTController(Coach theCoach){
++    RESTController(@Qualifier("basketballCoach") Coach theCoach){
+         myCoach = theCoach;
+     }
+ 
+     //Autowired for Setter Injection
+     @Autowired
+-    void getCoach(Coach theCoach){
+-        myCoach = theCoach;
++    void getCoach(@Qualifier("tennisCoach") Coach theCoach){
++        myCoach1 = theCoach;
+     }
+ 
+     @GetMapping("/CI_dailyworkout")
+@@ -30,7 +32,7 @@
+ 
+     @GetMapping("/SI_dailyworkout")
+     public String SIsetCoach(){
+-        return myCoach.SIgetDaliyWorkout();
++        return myCoach1.SIgetDaliyWorkout();
+     }
+ 
+ }
+Index: springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/common/TrachCoach.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/common/TrachCoach.java b/springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/common/TrachCoach.java
+new file mode 100644
+--- /dev/null	(date 1724781410412)
++++ b/springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/common/TrachCoach.java	(date 1724781410412)
+@@ -0,0 +1,16 @@
++package com.springBoot.Learning1.CoreDemo.common;
++
++import org.springframework.stereotype.Component;
++
++@Component
++public class TrachCoach implements Coach{
++    @Override
++    public String CIgetDaliyWorkout() {
++        return "Start With warm ups for 10 mins, start running to improve stamina, Using CI";
++    }
++
++    @Override
++    public String SIgetDaliyWorkout() {
++        return "Start With warm ups for 10 mins, start running to improve stamina, Using SI";
++    }
++}
+Index: springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/common/TennisCoach.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/common/TennisCoach.java b/springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/common/TennisCoach.java
+new file mode 100644
+--- /dev/null	(date 1724781531071)
++++ b/springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/common/TennisCoach.java	(date 1724781531071)
+@@ -0,0 +1,17 @@
++package com.springBoot.Learning1.CoreDemo.common;
++
++import org.springframework.stereotype.Component;
++
++@Component
++public class TennisCoach implements Coach{
++
++    @Override
++    public String CIgetDaliyWorkout() {
++        return "Start with warm ups, and practice forehand and backhand for 1 hour, Using CI";
++    }
++
++    @Override
++    public String SIgetDaliyWorkout() {
++        return "Start with warm ups, and practice forehand and backhand for 1 hour, Using CI";
++    }
++}
+Index: springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/common/CrciketCoach.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/common/CrciketCoach.java b/springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/common/CricketCoach.java
+rename from springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/common/CrciketCoach.java
+rename to springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/common/CricketCoach.java
+--- a/springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/common/CrciketCoach.java	(revision d6654f790e26ee47bf965fa2f145cf915e79af53)
++++ b/springboot/03-Setter-Injection/CoreDemo/CoreDemo/src/main/java/com/springBoot/Learning1/CoreDemo/common/CricketCoach.java	(date 1724781612158)
+@@ -4,7 +4,7 @@
+ 
+ //component marks class as Spring Bean indicating can be used for DI
+ @Component
+-public class CrciketCoach implements Coach {
++public class CricketCoach implements Coach {
+ 
+     @Override
+     public String CIgetDaliyWorkout(){
+diff --git a/springboot/03-Setter-Injection/CoreDemo/CoreDemo/target/classes/com/springBoot/Learning1/CoreDemo/common/CrciketCoach.class b/springboot/03-Setter-Injection/CoreDemo/CoreDemo/target/classes/com/springBoot/Learning1/CoreDemo/common/CrciketCoach.class
+deleted file mode 100644
+index 3c2fd7014c58383910ae9c387ea3d240cd3a2001..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+Hc$@<O00001
+
+diff --git a/springboot/03-Setter-Injection/CoreDemo/CoreDemo/target/classes/com/springBoot/Learning1/CoreDemo/rest/RESTController.class b/springboot/03-Setter-Injection/CoreDemo/CoreDemo/target/classes/com/springBoot/Learning1/CoreDemo/rest/RESTController.class
+index d340acd9667c00afaf5c69569ab5e2d3cdaf33cc..6643efdd6253ee5129856bf1f222693a236ffd21
+GIT binary patch
+literal 1456
+zc$}q^YflqF6o%h{(n2Xxt_ms&cxgcyh!{;UBv{0d6fcz24}LJS?LY^%J7jiB!@tr*
+zWAKANz#nBiv#bTAMu^$W&h4D{nRCv}kDuSZ16aXA8Xf3NA(25Bk__2haUi%af*t<a
+z+m#i|kbI^BWtSN`bNO-)y3vzDI)h$h7#>%2orn8I1v}5Rw!A2X323sw3);w4S=Zdi
+z(DKa}rLBSvtkJ$N4MVDaSkR(UW0)`gTY@a=I^dDVk~_hb4Ei0uJC<4K#Q+9V7|LK6
+zBMftw(_|PZtnWy>DtvYLPMba5pty%~`Qk}7O4g|@IndP%t~ts;>AcgU+-2j*ml+ZT
+zU6l;|MHR?bjk+hzmhgO987%6G@XNv|H;)$+wx&XcCl?^KN&XV0&DLZbcy>eDny$VP
+zM%1O1hIGd^8-Z1ISyrJU-bxT?E3DE1?L94OvlBD7olBDf=bjWn$hSqsYIDd%%Ym;n
+ztZphJs|1}oE88OekN(>RC4XB*L3JGnzu}VTiEvL^PxyWuV>eYP9`;%p1S<Ta>dHSU
+z;9}boG^NKq6;w~dUrM_n_V?Ybpgi)z`iH7hYW`MAm)64;ILk}t_jSWm<eG9d9Xea2
+zId}2?mX3CZ*`z|Bsxc<%m2}Vx@1T!fYBcJP`UJHuj8Q*MqqWEaNY8u)o0<KB)ThYy
+zI{mMplm3HbIfNd1ST|@kdTfoGm;j>DEmCE;?Nk{}KxiOIOH<TOQ=@mvaEIF65cg<)
+zzXe~8;YkPXI{~Mo)iFBe_$g?z1x;QKnxig{5fX9GMYt^&@n@utkY)JT0w<%Li3plG
+qwu+&XQ9c-EoaB435VJIT&{nnY2&3m!r!S=XkbLGMPu_}Y9{2^6XjyXr
+
+diff --git a/springboot/03-Setter-Injection/CoreDemo/CoreDemo/target/classes/com/springBoot/Learning1/CoreDemo/common/CricketCoach.class b/springboot/03-Setter-Injection/CoreDemo/CoreDemo/target/classes/com/springBoot/Learning1/CoreDemo/common/CricketCoach.class
+new file mode 100644
+index 0000000000000000000000000000000000000000..0339a820cf5cffc5f94c7d98400cb6a263a66117
+GIT binary patch
+literal 799
+zc$}S5O>fgc5Pch`aYzGA!e`;)-r5Rk^-%Q?gp|5Ms$>Bo5YC(JHr>|ViPq~@`B!j4
+z;=m8!M<K?=f~fQWTxND=-+OvHJKw&4`3hi!Cml2pglKlLf|fw<OkT)1lXe!ro}Ovt
+z1zOLIHU5P_u(>s9qb)Fc<D~LN>F9tiGh=7b3At!@FUpNAqGM^Y#m3X<eNo*gvW0i0
+z@{BmLm7*aVwb2n6{)0@Rz1K?$A-V#4it@OaI|dvO`8d_mSuS?tgq%LqImL{~$;OE@
+z>RkJTq&f|8M_}jgsTD_{nb5HoSWAu7ugZL?-8(tWxHCve$!sE>sp`7f^rxl}*iZk<
+z;ZUHT9L=;pl$lw4Aa_nBf5g4bt@QWzjD4kALC1eWJ7X%H(l1SAroXJcQz;0nzb&md
+zxt^H9u;Y=n<YhHjcD<dFo7JvQoXqtl%f<!IUz1<VHG9wJWVQ7}Y+#iaNZ>YaQ^1**
+zh~pYpF=xSfW&1P4Cq6XL<Jh`thUjzb{sdrvyPWxfxL=c>)#P9he!NCqU7`lRs1I(S
+V-nvfh-9T;N;Z=Nu^&0mW_yIXa#NGe^
+
+diff --git a/springboot/03-Setter-Injection/CoreDemo/CoreDemo/target/classes/com/springBoot/Learning1/CoreDemo/common/TennisCoach.class b/springboot/03-Setter-Injection/CoreDemo/CoreDemo/target/classes/com/springBoot/Learning1/CoreDemo/common/TennisCoach.class
+new file mode 100644
+index 0000000000000000000000000000000000000000..a7dbce46d05aec8ec7e35943d7daf3ae6d8d1733
+GIT binary patch
+literal 742
+zc$}S5O-~d-5PiL~?Bcq*3*ra2_67v$kQgr*5*T7aGSS4v_1rr&I}JNslb#+o{3|_~
+zaPSB4qX;$YM2UJJ9=fXQ<-M1eN?qSv{Qz))^&VP?x@h;YgpR=QTz}DOrrlJ1n4Ft5
+z2z1_BXT!cgw6Qr}#<D;%3fc!bw;_{r?Q>Zb<+jxBR2E*R!KOx@kvCb5)Ni8Gi^agG
+z+?5$sep`Mjt((gDxQm{^>y&a;7M`I)qM#C^z2jk5#cXtBa#GC5$*B|LoGoM0Y1Tzw
+zVCUY-g+`zq)2R^{B-WYtRX#EPL{DantR|G|*;sp9&kfiPnJoq0B>xj|PhcfJo|<r^
+zXZG?l`3tIep=%qP$?r9fLTy@8M}Jd$Bi>bN-q||K@Q(FPZ6L7zv2wxYW^7B#c@LbU
+zpo1mHnYR-1(<bwo*SVRqt15%>hQeiGIC)->GcN4mB_8k{2t4GYh`94DaDBv+;x4!^
+zZGDIM#-A1*bL}j^4hCHNKM5FOg*z`2Pa5&7MjWknzy2ZZ-H}GWq-*z)4*nr+;pw72
+K!}Ess0=NYTlCjGG
+
+diff --git a/springboot/03-Setter-Injection/CoreDemo/CoreDemo/target/classes/com/springBoot/Learning1/CoreDemo/common/TrachCoach.class b/springboot/03-Setter-Injection/CoreDemo/CoreDemo/target/classes/com/springBoot/Learning1/CoreDemo/common/TrachCoach.class
+new file mode 100644
+index 0000000000000000000000000000000000000000..cb41914b68d674f0ac13ef77cb740cc7df4094f7
+GIT binary patch
+literal 819
+zc$}@0PjAye5XIldX_AJ}wBc{zvfSFL)KrL55mIr56k&mcOM2e8+hj|2$6Bvj^;^LS
+zi31;i4}}<qh@#R1LR{W>XWwu1tetP)zkCI-kB40}5Vg_lVF@jP)l+q*;+b-j`0e;q
+z=Ru(L+&B|n2t*s3qYgR(ud|?hkVhs=<+<`!Rz)dK$jjX)(i&H8%W`h;m2<{TWFTp5
+z;pt4*7wk~m@_kv~B*PB6|8rnAY@;XeG$$LEh3D2wq7bKA`I_8~6Y}~%TZ-9X$;F3W
+z<<o>%+E@|T`D<{_2s9Hq)&l+1IQ^!wW9<*sc*dPUO1YYilsENx(QJmPDFvRT|B!D_
+zU@aL=bU08mb8$re16BMyw>LJ^%SX#XJ+roEe_Fd4RX*3ROdX|vIeDk%1=inHE*Psv
+zrZk*(-#H2@7;>C=D<wZ!BtG%V>T@0%mqB|?;iAx-+ZN=s3wwBk8@yBkH+jP%uDn>R
+zeLlrp1=ppm&k&#Zqk&b{*1Xxm8f)*T0R!CP%D;y@3;6K@jt1?ISJ36((C8O>_ZoEh
+TD!OtF+Q7ZJ-pBgF_W<|-EW68j
+
+diff --git a/springboot/03-Setter-Injection/CoreDemo/CoreDemo/target/classes/com/springBoot/Learning1/CoreDemo/common/BasketballCoach.class b/springboot/03-Setter-Injection/CoreDemo/CoreDemo/target/classes/com/springBoot/Learning1/CoreDemo/common/BasketballCoach.class
+new file mode 100644
+index 0000000000000000000000000000000000000000..002e10f2a120c4b5d00f78fabf7b2dbbbbf7f05e
+GIT binary patch
+literal 815
+zc$}S5%We}v5UlY!wqr~lCOiU{%`J%_3(6%T2$a}DinIcR!JNmFi8IOWv^6su<iCOw
+z5(hqjk3#gCRf0?o5tr)iR#mBHyMO-r{sX`P9<@<J)I`051vCU!&g6wmGHJ)j+tHa;
+zL7?%%SQB0fM4MZ~7Fq)RcTTEcl#X}f2^kx-^YIC}c=u_X8|&j^X|n0Y<M^XDb{s3R
+zKDa^!W*phl)R2u^XbZf$bh??9*MS*VE=_a<_7vrbpExEQ5``qy(phevB|UPwuX9S6
+zk&{ghr9anUB(tnXQk^!jB(QU1^-LpB@6oXqSWb=AZ;E`R-3K|!c+yQt$!sW{Df?<z
+z52wZpJWu~O<i5aa?`W(;UuI_diQG9Ayp^@ht@LVFgHRfm)WN^h_J9hf^lMY*S(~%p
+zDNO{{-xoHRTn~*mocq993bOpeoP9ebH?FduIGO9u?3{RBgr+c^XnsLHA**fJ#|Cck
+zK?&UE>x#JYQ86xamv9wa7q-7aeC3ZCRu~(zVFRm-oj(M0afd5s#obE$q!LHn=9f9?
+d;$PC}QhM(i>EgU}=^AMb_h<M3>lN=I@EgsU%6$L;
+
