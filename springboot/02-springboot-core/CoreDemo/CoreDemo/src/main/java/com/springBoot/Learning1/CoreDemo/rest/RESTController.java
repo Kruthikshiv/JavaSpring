@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+//@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class RESTController {
 
     //Local variable to store coach obj;
@@ -21,6 +21,7 @@ public class RESTController {
     //To Demonstrate Prototype bean Scope
     //private Coach theanotherCoach;
 
+    /*
     //To Demonstrate PostConstruct and PreDestroy
     //Define your init method
     @PostConstruct
@@ -34,11 +35,12 @@ public class RESTController {
         System.out.println("Hello from PreDestroy: " + getClass().getSimpleName());
     }
     //End Of PostConstruct and PreDestroy
+    */
 
 
     // define constructor for DI
     @Autowired
-    RESTController(@Qualifier("basketballCoach") Coach theCoach){
+    RESTController(@Qualifier("swimCoach") Coach theCoach){
                    ////To Demonstrate Prototype bean Scope
                    //@Qualifier("basketballCoach") Coach anotherCoach){
         System.out.println("In Constructor : "+ getClass().getSimpleName());
