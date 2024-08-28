@@ -1,5 +1,8 @@
 package com.springBoot.Learning1.CoreDemo.common;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 //component marks class as Spring Bean indicating can be used for DI
