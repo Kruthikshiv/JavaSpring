@@ -40,7 +40,8 @@ public class RESTController {
 
     // define constructor for DI
     @Autowired
-    RESTController(@Qualifier("swimCoach") Coach theCoach){
+    //RESTController(@Qualifier("swimCoach") Coach theCoach){
+    RESTController(@Qualifier("aquatic") Coach theCoach){
                    ////To Demonstrate Prototype bean Scope
                    //@Qualifier("basketballCoach") Coach anotherCoach){
         System.out.println("In Constructor : "+ getClass().getSimpleName());
