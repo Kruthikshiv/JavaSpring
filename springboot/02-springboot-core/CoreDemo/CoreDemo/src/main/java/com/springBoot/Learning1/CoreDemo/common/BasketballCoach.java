@@ -1,6 +1,11 @@
 package com.springBoot.Learning1.CoreDemo.common;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+//To Demoonstrate Prototype Scope
+//@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 
 @Component
 public class BasketballCoach implements Coach {

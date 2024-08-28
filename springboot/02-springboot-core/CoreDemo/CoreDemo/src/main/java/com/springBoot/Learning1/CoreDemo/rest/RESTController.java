@@ -1,6 +1,8 @@
 package com.springBoot.Learning1.CoreDemo.rest;
 
 import com.springBoot.Learning1.CoreDemo.common.Coach;
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -17,15 +19,32 @@ public class RESTController {
     private Coach myCoach1;
 
     //To Demonstrate Prototype bean Scope
-    private Coach theanotherCoach;
+    //private Coach theanotherCoach;
+
+    //To Demonstrate PostConstruct and PreDestroy
+    //Define your init method
+    @PostConstruct
+    void postConstructBean(){
+        System.out.println("Hello from post Construct : "+ getClass().getSimpleName());
+    }
+
+    //Define our destroy method
+    @PreDestroy
+    void preDestroyBean(){
+        System.out.println("Hello from PreDestroy: " + getClass().getSimpleName());
+    }
+    //End Of PostConstruct and PreDestroy
+
 
     // define constructor for DI
     @Autowired
-    RESTController(@Qualifier("basketballCoach") Coach theCoach,
-                   @Qualifier("basketballCoach") Coach anotherCoach){
+    RESTController(@Qualifier("basketballCoach") Coach theCoach){
+                   ////To Demonstrate Prototype bean Scope
+                   //@Qualifier("basketballCoach") Coach anotherCoach){
         System.out.println("In Constructor : "+ getClass().getSimpleName());
         myCoach = theCoach;
-        theanotherCoach = anotherCoach;
+        //To Demonstrate Prototype bean Scope
+        // theanotherCoach = anotherCoach;
     }
 
     //Autowired for Setter Injection
@@ -44,10 +63,11 @@ public class RESTController {
         return myCoach1.SIgetDaliyWorkout();
     }
 
+
     // To Demonstrate Prototype
-    @GetMapping("/check")
-    public String isScopeEqual(){
-        return "Condition coach == anotherCoach evaluates to : "+ (myCoach==theanotherCoach);
-    }
+//    @GetMapping("/check")
+//    public String isScopeEqual(){
+//        return "Condition coach == anotherCoach evaluates to : "+ (myCoach==theanotherCoach);
+//    }
 
 }
